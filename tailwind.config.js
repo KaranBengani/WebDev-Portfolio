@@ -5,7 +5,20 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'cm-blue': "#05fdd8",
+        'cm-red': "#fd2155", 
+      },
+      keyframes: {
+        spinText: {
+          to: { transform: 'rotate(360deg)'}
+        }
+      },
+      animation: {
+        spinText: 'spinText 30s linear infinite',
+      }
+    },
   },
   plugins: [],
 }
