@@ -16,8 +16,9 @@ export const BoxReveal = ({
   boxColor,
   duration,
 }: BoxRevealProps) => {
-  const mainControls = useAnimation();
-  const slideControls = useAnimation();
+ 
+const mainControls = useAnimation();
+const slideControls = useAnimation();
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });

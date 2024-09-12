@@ -1,0 +1,5 @@
+.GlassBackground{
+    -webkit-box-shadow:0px 0px 63px 21px rgba(5,253,216,0.62);
+-moz-box-shadow: 0px 0px 63px 21px rgba(5,253,216,0.62);
+box-shadow: 0px 0px 63px 21px rgba(5,253,216,0.62);
+}

@@ -18,6 +18,7 @@ export const cloudProps: Omit<ICloud, "children"> = {
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
+      cursor: "pointer",
       paddingTop: 40,
     },
   },
@@ -32,14 +33,14 @@ export const cloudProps: Omit<ICloud, "children"> = {
     clickToFront: 500,
     tooltipDelay: 0,
     outlineColour: "#0000",
-    maxSpeed: 0.02,
-    minSpeed: 0.01,
+    maxSpeed: 0.002,
+    minSpeed: 0.001,
     dragControl: true,
-    freezeDecel:false,
+    freezeDecel:true,
   },
 };
 
-export const renderCustomIcon = (icon: SimpleIcon, theme: string) => {
+export const renderCustomIcon = (icon: SimpleIcon, theme: string,setSkill:React.Dispatch<React.SetStateAction<string>>) => {
   const bgHex = theme === "light" ? "#f3f2ef" : "#080510";
   const fallbackHex = theme === "light" ? "#6e6e73" : "#ffffff";
   const minContrastRatio = theme === "dark" ? 2 : 1.2;
@@ -56,18 +57,23 @@ export const renderCustomIcon = (icon: SimpleIcon, theme: string) => {
       rel: undefined,
       onClick: (e: any) => {e.preventDefault()
         console.log(icon.slug)
+        setSkill(icon.slug)
+      },
+      style: {
+        cursor: "pointer !important", // This sets the cursor to pointer
       },
     },
   });
 };
 
 export type DynamicCloudProps = {
-  iconSlugs: string[];
+  iconSlugs: string[],
+  setSkill: React.Dispatch<React.SetStateAction<string>>
 };
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
-export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
+export default function IconCloud({ iconSlugs , setSkill }: DynamicCloudProps) {
   const [data, setData] = useState<IconData | null>(null);
   const { theme } = useTheme();
 
@@ -79,9 +85,18 @@ export default function IconCloud({ iconSlugs }: DynamicCloudProps) {
     if (!data) return null;
 
     return Object.values(data.simpleIcons).map((icon) =>
-      renderCustomIcon(icon, theme || "light"),
+      renderCustomIcon(icon, theme || "light",setSkill),
     );
   }, [data, theme]);
+
+
+     // Ensure cursor pointer is applied using direct DOM manipulation after render
+  useEffect(() => {
+    const anchors = document.querySelectorAll('a[title]');
+    anchors.forEach((anchor) => {
+      (anchor as HTMLElement).style.cursor = 'pointer !important'; // Apply cursor forcefully
+    });
+  }, [renderedIcons]);
 
   return (
     // @ts-ignore

@@ -67,4 +67,7 @@
     @apply bg-background text-foreground bg-[#242424];
     font-family: sans-serif;
   }
+  .SkillSection canvas{
+    cursor: pointer !important;
+  }
 }
